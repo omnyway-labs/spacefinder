@@ -8,8 +8,4 @@
 
 ;; main
 (defn main-panel []
-  [re-com/v-box
-   :children [[comp/navbar]
-              
-              ]]
-
+)

@@ -3,7 +3,7 @@
    [reagent.core :as reagent]
    [re-frame.core :as re-frame]
    [breaking-point.core :as bp]
-   [spacefinder.events :as events]
+   [spacefinder.db :as db]
    [spacefinder.views :as views]
    [spacefinder.config :as config]
    ))
@@ -20,7 +20,7 @@
                   (.getElementById js/document "app")))
 
 (defn ^:export init []
-  (re-frame/dispatch-sync [::events/initialize-db])
+  (re-frame/dispatch-sync [::db/initialize-db])
   (re-frame/dispatch-sync [::bp/set-breakpoints
                            {:breakpoints [:mobile
                                           768

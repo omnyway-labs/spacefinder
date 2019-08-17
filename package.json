@@ -7,10 +7,10 @@
   },
   "dependencies": {
     "create-react-class": "^15.6.3",
-    "highlight.js": "^9.15.8",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "react-flip-move": "^3.0.1",
+    "highlight.js": "^9.15.9",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "react-flip-move": "^3.0.3",
     "react-highlight.js": "^1.0.7"
   }
 }
