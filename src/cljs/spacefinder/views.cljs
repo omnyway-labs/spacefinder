@@ -26,13 +26,13 @@
 ;; ---------
 
 (defn sign-up []
-  (println "sign-up"))
+  (js/console.log "sign-up"))
 
 (defn sign-in-custom-ui []
-  (println "sign-in-custom-ui"))
+  (js/console.log "sign-in-custom-ui"))
 
 (defn sign-in-hosted-ui []
-  (println "sign-in-hosted-ui"))
+  (js/console.log "sign-in-hosted-ui"))
 
 
 (defn title []
@@ -49,19 +49,18 @@
    :style   {:background-color "#666"}
    :children [[rc/button
                :label "Sign-Up"
-               :on-click (handler-fn sign-up)]
+               :on-click (handler-fn (sign-up))]
               [rc/button
                :label "Sign-In (Custom UI)"
-               :on-click (handler-fn sign-in-custom-ui)]
+               :on-click (handler-fn (sign-in-custom-ui))]
               [rc/button
                :label "Sign-In (Hosted UI)"
-               :on-click (handler-fn sign-in-hosted-ui)]
+               :on-click (handler-fn (sign-in-hosted-ui))]
               ]])
 
 
 (defn main-panel []
   [rc/v-box
    :height "100%"
-   :children [[title]
-              [initial-navbar]
+   :children [[initial-navbar]
               ]])
