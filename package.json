@@ -1,16 +1,18 @@
 {
-  "devDependencies": {
-    "shadow-cljs": "^2.8.48",
-    "karma": "^4.2.0",
-    "karma-chrome-launcher": "^3.0.0",
-    "karma-cljs-test": "^0.1.0"
-  },
-  "dependencies": {
-    "create-react-class": "^15.6.3",
-    "highlight.js": "^9.15.9",
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0",
-    "react-flip-move": "^3.0.3",
-    "react-highlight.js": "^1.0.7"
-  }
+    "devDependencies": {
+        "shadow-cljs": "^2.8.48",
+        "karma": "^4.2.0",
+        "karma-chrome-launcher": "^3.0.0",
+        "karma-cljs-test": "^0.1.0"
+    },
+    "dependencies": {
+        "amazon-cognito-identity-js": "^3.0.15",
+        "aws-amplify": "^1.1.36",
+        "create-react-class": "^15.6.3",
+        "highlight.js": "^9.15.9",
+        "react": "^16.9.0",
+        "react-dom": "^16.9.0",
+        "react-flip-move": "^3.0.3",
+        "react-highlight.js": "^1.0.7"
+    }
 }

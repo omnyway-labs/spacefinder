@@ -1,8 +1,8 @@
 # spacefinder
 
-A [re-frame](https://github.com/Day8/re-frame) application designed to recreate
-some or all of the spacefinder client for demoing AWS Cognito auth / access
-control.
+A [re-frame](https://github.com/Day8/re-frame) /
+[re-com](https://re-com.day8.com.au) application designed to recreate some or
+all of the spacefinder client for demoing AWS Cognito auth / access control.
 
 The goal is to have a clojurescript webapp (just the frontend )for showcasing authentication and
 authorization patterns using Amazon Cognito, Amazon API Gateway, AWS Lambda, and
