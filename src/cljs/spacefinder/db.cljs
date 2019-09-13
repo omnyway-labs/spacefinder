@@ -4,7 +4,11 @@
    [day8.re-frame.tracing :refer-macros [fn-traced defn-traced]]))
 
 (def default-db
-  {:name "spacefinder"})
+  {:name "spacefinder"
+   :views {
+           :username "user1"
+           :password "Test123!"
+           }})
 
 
 (rf/reg-event-db

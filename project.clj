@@ -9,7 +9,6 @@
                  [re-com "2.5.0"]
                  [garden "1.3.9"]
                  [ns-tracker "0.4.0"]
-                 [cljsjs/aws-sdk-js "2.421.0-0"]
                  [breaking-point "0.1.2"]]
 
   :plugins [[lein-garden "0.2.8"]]

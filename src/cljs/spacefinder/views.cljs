@@ -2,6 +2,7 @@
   (:require
    [re-frame.core :as rf]
    [re-com.core :as rc :refer-macros [handler-fn]]
+   [aws-sdk]
    [amazon-cognito-identity-js]
    [breaking-point.core :as bp]
    ))
@@ -46,15 +47,6 @@
 
 ;; ---------
 
-(defn sign-up []
-  (js/console.log "sign-up"))
-
-(defn sign-in-custom-ui []
-  (js/console.log "sign-in-custom-ui"))
-
-(defn sign-in-hosted-ui []
-  (js/console.log "sign-in-hosted-ui"))
-
 
 (def config {
              :user_pool_id               "us-east-1_79D6i69td"
@@ -90,7 +82,33 @@
     (js/AWSCognito.CognitoIdentityServiceProvider.CognitoUser user-data)))
 
 ;; TODO Complete Signin Example: https://github.com/jmglov/hello-world.se-ddraw/blob/master/src/cljs/ddraw/cognito.cljs
+(defn signin []
+  (let [authentication-details (js/AWSCognito.CognitoIdentityServiceProvider.AuthenticationDetails.
+                                (clj->js {:Username @(rf/subscribe [:username])
+                                          :Password @(rf/subscribe [:password])}))
+        cognito-user (get-congito-user)]
+  (println "Getting ready to authenticate")
+  (.authenticateUser cognito-user authentication-details
+                     (clj->js {:onSuccess
+                               (fn [res]
+                                 (let [access-token (-> res .getAccessToken .getJwtToken)
+                                       id-token (-> res .getIdToken .getJwtToken)]
+                                   (println "Access token" access-token)
+                                   (println "ID token" id-token)))
+                               :onFailure
+                               (fn [err]
+                                 (println "error" err))}
+                              ))))
 
+(defn sign-up []
+  (js/console.log "sign-up"))
+
+(defn sign-in-custom-ui []
+  (js/console.log "sign-in-custom-ui")
+  (signin))
+
+(defn sign-in-hosted-ui []
+  (js/console.log "sign-in-hosted-ui"))
 
 (defn title []
   (let [name (rf/subscribe [:name])]
