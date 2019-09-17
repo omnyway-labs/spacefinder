@@ -49,33 +49,33 @@
 
 
 (def config {
-             :user_pool_id               "us-east-1_6xgfyCNPb"
-             :user_pool_domain_name      "https://spacefinder-development-us-east-1-6xgfycnpb.auth.us-east-1.amazoncognito.com"
-             :user_pool_domain_prefix    "spacefinder-development-us-east-1-6xgfycnpb"
-             :client_id                  "2o5de073jf4dpqo8b1s9davggu"
-             :identity_pool_id           "us-east-1:347719000464:userpool/us-east-1_6xgfyCNPb"
+             :user-pool-id               "us-east-1_6xgfyCNPb"
+             :user-pool-domain-name      "https://spacefinder-development-us-east-1-6xgfycnpb.auth.us-east-1.amazoncognito.com"
+             :user-pool-domain-prefix    "spacefinder-development-us-east-1-6xgfycnpb"
+             :client-id                  "2o5de073jf4dpqo8b1s9davggu"
+             :identity-pool-id           "us-east-1:57924bcf-8eba-4487-8397-4d90999f3aab"
              :region                     "us-east-1",  ; Your AWS region where you setup your Cognito User Pool and Federated Identities
 
-             :profile_images_s3_bucket   "spacefinder-development-stack-userdatabucket-11wtuhxdpzbp5"
+             :profile-images-s3-bucket   "spacefinder-development-stack-userdatabucket-11wtuhxdpzbp5"
 
-             :api_endpoint               "https://g2drvofsu8.execute-api.us-east-1.amazonaws.com/development"
+             :api-endpoint               "https://g2drvofsu8.execute-api.us-east-1.amazonaws.com/development"
 
-             :developer_mode             false ; enable to automatically login
-             :code_version               "1.0.0"
-             :default_usernames          ["user1", "admin1"] ; default users cannot change their passwords
+             :developer-mode             false ; enable to automatically login
+             :code-version               "1.0.0"
+             :default-usernames          ["user1", "admin1"] ; default users cannot change their passwords
              })
 
 (defn get-user-pool []
-  (let [pool-data (clj->js {:UserPoolId (:user_pool_id config)
-                            :ClientId (:client_id config)})]
+  (let [pool-data (clj->js {:UserPoolId (:user-pool-id config)
+                            :ClientId (:client-id config)})]
     (aset AWS/config "region" (:region config))
                                         ;(aset AmazonCognitoIdentity/config "region" (:region config))
-    ;; (aset AWS/config "credentials" (AWS/CognitoIdentityCredentials
-    ;;                                 (clj->js {:IdentityPoolId (:identity-pool-id config) :LoginId @(rf/subscribe [:username])})))
+     ;; (aset AWS/config "credentials" (AWS/CognitoIdentityCredentials
+     ;;                                 (clj->js {:IdentityPoolId (:identity-pool-id config) :LoginId @(rf/subscribe [:username])})))
 
                                         ; Initialize AWS config object with dummy keys -
                                         ; required if unauthenticated access is not enabled for identity pool
-    (aset AWS/config "update" (clj->js {:accessKeyId "dummyvalue" :secretAccessKey "dummyvalue"}))
+    ;(aset AWS/config "update" (clj->js {:accessKeyId "dummyvalue" :secretAccessKey "dummyvalue"}))
     (AmazonCognitoIdentity/CognitoUserPool. pool-data)))
 
 (defn get-cognito-user []
@@ -94,9 +94,27 @@
                      (clj->js {:onSuccess
                                (fn [res]
                                  (let [access-token (-> res .getAccessToken .getJwtToken)
-                                       id-token (-> res .getIdToken .getJwtToken)]
+                                       id-token (-> res .getIdToken .getJwtToken)
+                                       pool-path (str "cognito-idp." (:region config)
+                                                      ".amazonaws.com/" (:user-pool-id config))]
                                    (println "Access token" access-token)
-                                   (println "ID token" id-token)))
+                                   (println "ID token" id-token)
+                                   (println "pool-path" pool-path)
+                                   (println "identity-pool-id" (:identity-pool-id config))
+                                   ;; (aset AWS/config "region" (:region config))
+                                   ;; (aset AWS/config "update" (clj->js {:accessKeyId "dummyvalue" :secretAccessKey "dummyvalue"}))
+                                   (aset AWS/config "credentials"
+                                         (AWS/CognitoIdentityCredentials.
+                                          (clj->js {:IdentityPoolId (:identity-pool-id config)
+                                                    :Logins {pool-path
+                                                             id-token}})))
+                                   (js/console.log "AWS/Config" AWS/config.credentials)
+                                   (AWS/config.credentials.refresh
+                                    (fn [err]
+                                      (if err
+                                        (println "Refresh error:" err)
+                                        (println "Refresh success AWS/Credentials" AWS/Credentials))))
+                                   ))
                                :onFailure
                                (fn [err]
                                  (println "error" err))}
