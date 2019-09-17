@@ -1,16 +1,16 @@
 {
     "devDependencies": {
-        "shadow-cljs": "^2.8.48",
-        "karma": "^4.2.0",
-        "karma-chrome-launcher": "^3.0.0",
+        "shadow-cljs": "^2.8.52",
+        "karma": "^4.3.0",
+        "karma-chrome-launcher": "^3.1.0",
         "karma-cljs-test": "^0.1.0"
     },
     "dependencies": {
-        "aws-sdk": "^2.512.0",
+        "aws-sdk": "^2.529.0",
         "amazon-cognito-identity-js": "^3.0.15",
-        "aws-amplify": "^1.1.36",
+        "aws-amplify": "^1.1.40",
         "create-react-class": "^15.6.3",
-        "highlight.js": "^9.15.9",
+        "highlight.js": "^9.15.10",
         "react": "^16.9.0",
         "react-dom": "^16.9.0",
         "react-flip-move": "^3.0.3",

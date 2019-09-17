@@ -13,5 +13,5 @@
 
 (rf/reg-event-db
  ::initialize-db
- (fn-traced [_ _]
+ (fn [_ _]
             default-db))

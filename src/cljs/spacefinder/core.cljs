@@ -16,19 +16,20 @@
 
 (defn mount-root []
   (re-frame/clear-subscription-cache!)
+  (re-frame/dispatch-sync [::db/initialize-db])
   (reagent/render [views/main-panel]
                   (.getElementById js/document "app")))
 
 (defn ^:export init []
   (re-frame/dispatch-sync [::db/initialize-db])
-  (re-frame/dispatch-sync [::bp/set-breakpoints
-                           {:breakpoints [:mobile
-                                          768
-                                          :tablet
-                                          992
-                                          :small-monitor
-                                          1200
-                                          :large-monitor]
-                            :debounce-ms 166}])
+  ;; (re-frame/dispatch-sync [::bp/set-breakpoints
+  ;;                          {:breakpoints [:mobile
+  ;;                                         768
+  ;;                                         :tablet
+  ;;                                         992
+  ;;                                         :small-monitor
+  ;;                                         1200
+  ;;                                         :large-monitor]
+  ;;                           :debounce-ms 166}])
   (dev-setup)
   (mount-root))

@@ -14,6 +14,13 @@ https://github.com/awslabs/aws-serverless-auth-reference-app
 
 ## Development Mode
 
+### Install shadow-cljs if it isn't not yet installed and other npm modules
+
+```
+npm install -g shadow-cljs
+npm install
+```
+
 ### Start Cider from Emacs:
 
 Refer to the [shadow-cljs Emacs / CIDER documentation](https://shadow-cljs.github.io/docs/UsersGuide.html#cider).
@@ -37,7 +44,7 @@ lein garden auto
 
 ```
 lein clean
-lein dev
+shadow-cljs watch app
 ```
 
 shadow-cljs will automatically push cljs changes to the browser.

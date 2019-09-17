@@ -2,8 +2,8 @@
   (:require
    [re-frame.core :as rf]
    [re-com.core :as rc :refer-macros [handler-fn]]
-   [aws-sdk]
-   [amazon-cognito-identity-js]
+   ["aws-sdk" :as AWS]
+   ["amazon-cognito-identity-js" :as AmazonCognitoIdentity]
    [breaking-point.core :as bp]
    ))
 
@@ -16,17 +16,17 @@
 (rf/reg-sub
  :selected-user-nav-id
  (fn [db _]
-   (get-in [:views :selected-user-nav-id] db)))
+   (get-in db [:views :selected-user-nav-id])))
 
 (rf/reg-sub
  :username
  (fn [db _]
-   (get-in [:views :username] db)))
+   (get-in db [:views :username])))
 
 (rf/reg-sub
  :password
  (fn [db _]
-   (get-in [:views :password] db)))
+   (get-in db [:views :password])))
 
 ;; -------- Dispatchers
 (rf/reg-event-db
@@ -68,25 +68,27 @@
 (defn get-user-pool []
   (let [pool-data (clj->js {:UserPoolId (:user_pool_id config)
                             :ClientId (:client_id config)})]
-    (aset js/AWSCognito.config "region" (:region config))
-    (aset js/AWSCognito.config "credentials" (js/AWS.CognitoIdentityCredentials.
-                                              (clj->js {:IdentityPoolId (:identity-pool-id config)})))
+    (aset AWS/config "region" (:region config))
+                                        ;(aset AmazonCognitoIdentity/config "region" (:region config))
+    ;; (aset AWS/config "credentials" (AWS/CognitoIdentityCredentials
+    ;;                                 (clj->js {:IdentityPoolId (:identity-pool-id config) :LoginId @(rf/subscribe [:username])})))
 
                                         ; Initialize AWS config object with dummy keys -
                                         ; required if unauthenticated access is not enabled for identity pool
-    (aset js/AWSCognito.config "update" (clj->js {:accessKeyId "dummyvalue" :secretAccessKey "dummyvalue"}))
-    (js/AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool pool-data)))
+    (aset AWS/config "update" (clj->js {:accessKeyId "dummyvalue" :secretAccessKey "dummyvalue"}))
+    (AmazonCognitoIdentity/CognitoUserPool. pool-data)))
 
-(defn get-congito-user []
+(defn get-cognito-user []
   (let [user-data (clj->js {:Username @(rf/subscribe [:username]) :Pool (get-user-pool)})]
-    (js/AWSCognito.CognitoIdentityServiceProvider.CognitoUser user-data)))
+    (js/console.log "user-data: " user-data)
+    (AmazonCognitoIdentity/CognitoUser. user-data)))
 
 ;; TODO Complete Signin Example: https://github.com/jmglov/hello-world.se-ddraw/blob/master/src/cljs/ddraw/cognito.cljs
 (defn signin []
-  (let [authentication-details (js/AWSCognito.CognitoIdentityServiceProvider.AuthenticationDetails.
+  (let [authentication-details (AmazonCognitoIdentity/AuthenticationDetails.
                                 (clj->js {:Username @(rf/subscribe [:username])
                                           :Password @(rf/subscribe [:password])}))
-        cognito-user (get-congito-user)]
+        cognito-user (get-cognito-user)]
   (println "Getting ready to authenticate")
   (.authenticateUser cognito-user authentication-details
                      (clj->js {:onSuccess
