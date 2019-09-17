@@ -49,11 +49,11 @@
 
 
 (def config {
-             :user_pool_id               "us-east-1_79D6i69td"
-             :user_pool_domain_name      "spacefinder-development-us-east-1-79d6i69td.auth.us-east-1.amazoncognito.com"
-             :user_pool_domain_prefix    "spacefinder-development-us-east-1-79d6i69td"
-             :client_id                  "58pvvcoktlrhcng34ve68i74uf"
-             :identity_pool_id           "us-east-1:aac5e9e6-ff3a-4586-b984-2cd88b693f69"
+             :user_pool_id               "us-east-1_6xgfyCNPb"
+             :user_pool_domain_name      "https://spacefinder-development-us-east-1-6xgfycnpb.auth.us-east-1.amazoncognito.com"
+             :user_pool_domain_prefix    "spacefinder-development-us-east-1-6xgfycnpb"
+             :client_id                  "2o5de073jf4dpqo8b1s9davggu"
+             :identity_pool_id           "us-east-1:347719000464:userpool/us-east-1_6xgfyCNPb"
              :region                     "us-east-1",  ; Your AWS region where you setup your Cognito User Pool and Federated Identities
 
              :profile_images_s3_bucket   "spacefinder-development-stack-userdatabucket-11wtuhxdpzbp5"
