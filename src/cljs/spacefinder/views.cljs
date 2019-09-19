@@ -89,8 +89,8 @@
                                 (clj->js {:Username @(rf/subscribe [:username])
                                           :Password @(rf/subscribe [:password])}))
         cognito-user (get-cognito-user)]
-  (println "Getting ready to authenticate")
-  (.authenticateUser cognito-user authentication-details
+    (println "Getting ready to authenticate")
+    (.authenticateUser cognito-user authentication-details
                      (clj->js {:onSuccess
                                (fn [res]
                                  (let [access-token (-> res .getAccessToken .getJwtToken)
@@ -108,12 +108,12 @@
                                           (clj->js {:IdentityPoolId (:identity-pool-id config)
                                                     :Logins {pool-path
                                                              id-token}})))
-                                   (js/console.log "AWS/Config" AWS/config.credentials)
+                                   (js/console.log "AWS/Config.credentials" AWS/config.credentials)
                                    (AWS/config.credentials.refresh
                                     (fn [err]
                                       (if err
                                         (println "Refresh error:" err)
-                                        (println "Refresh success AWS/Credentials" AWS/Credentials))))
+                                        (println "Refresh success AWS/Credentials.accessKeyId" AWS/Credentials.accessKeyId))))
                                    ))
                                :onFailure
                                (fn [err]
@@ -128,7 +128,8 @@
   (signin))
 
 (defn sign-in-hosted-ui []
-  (js/console.log "sign-in-hosted-ui"))
+  (js/console.log "sign-in-hosted-ui")
+  (js/console.log "sign-in-hosted-ui AWS/Config.credentials" AWS/config.credentials))
 
 (defn title []
   (let [name (rf/subscribe [:name])]
